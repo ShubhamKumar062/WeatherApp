@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5-Day Forecast</title>
+    <style>
+        body {
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            background-size: 100% 100%;
+        }
+        #forecastResult {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 2fr));
+            gap: 20px;
+        }
+        .forecast-card {
+            background-color: #eee;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 8px;
+            text-align: center;
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <h1>5-Day Forecast</h1>
+    <div id="forecastResult"></div>
+
+    <script>
+        const API_KEY = "b22151b873ae1d55b47f83658f4c9152";
+        const city = localStorage.getItem("city") || "New Delhi"; 
+
+        if (!city) {
+            document.getElementById("forecastResult").innerText = "No city found. Please enter a city in the main page.";
+        } else {
+            fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric`)
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.cod !== "200") throw new Error(data.message);
+
+                    const forecastResult = document.getElementById("forecastResult");
+                    const dailyForecasts = {};
+                    
+                    data.list.forEach((item) => {
+                        const date = item.dt_txt.split(" ")[0];
+                        if (!dailyForecasts[date]) {
+                            dailyForecasts[date] = item;
+                        }
+                    });
+
+                    Object.values(dailyForecasts).forEach((day) => {
+                        const date = new Date(day.dt_txt).toLocaleDateString();
+                        const tempC = day.main.temp.toFixed(1);
+                        const weather = day.weather[0].description;
+
+                        const card = document.createElement("div");
+                        card.className = "forecast-card";
+                        card.innerHTML = `
+                            <h3>${date}</h3>
+                            <p>${weather}</p>
+                            <img src="https://openweathermap.org/img/wn/${day.weather[0].icon}.png" alt="Weather Icon">
+                            <p>${tempC}°C</p>
+                        `;
+                        forecastResult.appendChild(card);
+                    });
+                })
+                .catch((err) => {
+                    document.getElementById("forecastResult").innerText = "Failed to fetch forecast.";
+                    console.error("Error:", err);
+                });
+        }
+    </script>
+</body>
+</html>
