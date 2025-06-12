@@ -1,31 +1,55 @@
+body{
+    margin: 0;
+    padding: 0;
+    background-image: url("images/weatherpic.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-size: 100% 100%;
+}
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 20px;
+}
 
-      body{
-       background-image: url("images/weatherpic.png");
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-  background-size: cover;
-  background-size: 100% 100%;
-      }
-      .main{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        gap:20px;
-      }
+h1{
+  color: red;
+}
+#box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 30px 20px;
+  margin: 20px auto;
+  width: 90%;
+  max-width: 500px;
+  color: white;
+  backdrop-filter: blur(8px);
+  text-align: center;
+}
+#searchbtn{
+  background-color: lightblue;
+  color: blue;
+}
 
-      h1{
-        color: red;
-      }
-      #box{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
+@media screen and (max-width: 500px) {
+  h1 {
+    font-size: 2.2rem;
+  }
 
-      }
-      #searchbtn{
-        background-color: lightblue;
-        color: blue;
-      }
+  .input-box input {
+    width: 200px;
+  }
+
+  #box {
+    padding: 15px;
+  }
+}
  
